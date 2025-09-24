@@ -2,6 +2,8 @@ package com.project.sweet_shop_management.Service;
 
 import com.project.sweet_shop_management.model.Sweet;
 import com.project.sweet_shop_management.repository.SweetRepository;
+import com.project.sweet_shop_management.service.SweetServiceImpl;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
