@@ -1,4 +1,4 @@
-package com.project.sweet_shop_management.Service;
+package com.project.sweet_shop_management.service;
 
 import com.project.sweet_shop_management.model.Sweet;
 import com.project.sweet_shop_management.repository.SweetRepository;

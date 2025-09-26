@@ -1,5 +1,6 @@
 package com.project.sweet_shop_management.controller;
 
+import com.project.sweet_shop_management.model.LoginResponse;
 import com.project.sweet_shop_management.model.Users;
 import com.project.sweet_shop_management.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Users user){
-        return new ResponseEntity<String>(authService.loginUser(user),HttpStatus.OK);
+    public ResponseEntity<LoginResponse> login(@RequestBody Users user) {
+        return new ResponseEntity<>(authService.loginUser(user), HttpStatus.OK);
     }
+
 }

@@ -20,6 +20,7 @@ public class SweetController {
 
     // Add new sweet
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Sweet> addSweet(@RequestBody Sweet sweet) {
         return ResponseEntity.ok(sweetService.addSweet(sweet));
     }
@@ -48,6 +49,7 @@ public class SweetController {
 
     // Update sweet
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Sweet> updateSweet(@PathVariable Long id, @RequestBody Sweet sweet) {
         return ResponseEntity.ok(sweetService.updateSweet(id, sweet));
     }
@@ -75,4 +77,3 @@ public class SweetController {
         return ResponseEntity.ok(sweetService.restockSweet(id, qty));
     }
 }
-

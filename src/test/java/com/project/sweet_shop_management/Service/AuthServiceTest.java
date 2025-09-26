@@ -1,6 +1,6 @@
-package com.project.sweet_shop_management.Service;
+package com.project.sweet_shop_management.service;
 
-
+import com.project.sweet_shop_management.model.LoginResponse;
 import com.project.sweet_shop_management.model.Users;
 import com.project.sweet_shop_management.repository.UserRepository;
 import com.project.sweet_shop_management.service.AuthService;
@@ -48,7 +48,8 @@ class AuthServiceTest {
     }
 
     @Test
-    void testLoginUserReturnsToken() {
+    void testLoginUserReturnsTokenAndUser() {
+        // Arrange
         Users user = new Users();
         user.setName("john");
         user.setPassword("plain123");
@@ -60,8 +61,21 @@ class AuthServiceTest {
         when(auth.isAuthenticated()).thenReturn(true);
         when(jwtService.generateToken("john")).thenReturn("fake-jwt-token");
 
-        String token = authService.loginUser(user);
+        Users dbUser = new Users();
+        dbUser.setId(1L);
+        dbUser.setName("john");
+        dbUser.setPassword("hashed-pass");
+        when(userRepository.findByName("john")).thenReturn(dbUser);
 
-        assertEquals("fake-jwt-token", token);
+        // Act
+        LoginResponse response = authService.loginUser(user);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals("fake-jwt-token", response.getToken());
+        assertNotNull(response.getUser());
+        assertEquals("john", response.getUser().getName());
+        assertEquals(1L, response.getUser().getId());
     }
+
 }

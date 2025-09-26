@@ -1,5 +1,7 @@
 package com.project.sweet_shop_management.service;
 
+
+import com.project.sweet_shop_management.model.LoginResponse;
 import com.project.sweet_shop_management.model.Users;
 import com.project.sweet_shop_management.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,18 +59,23 @@ public class AuthService {
      * @param user User object containing username and password
      * @return JWT token string if authentication is successful, otherwise "failure"
      */
-    public String loginUser(Users user) {
-        // Create authentication token from username and password
+    public LoginResponse loginUser(Users user) {
+        // Authenticate username + password
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getName(), user.getPassword())
         );
 
-        // If authentication is successful, generate and return JWT
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(user.getName()); // Probably meant "generateToken"
+            // Generate JWT
+            String token = jwtService.generateToken(user.getName());
+
+            // Fetch full user details from DB
+            Users dbUser = userRepository.findByName(user.getName());
+
+            return new LoginResponse(token, dbUser);
         } else {
-            return "failure";
+            throw new RuntimeException("Invalid login credentials");
         }
     }
-}
 
+}
